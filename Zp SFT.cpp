@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 int BaseP(int *x, int N, int a, int P);
+int SFT(int *X, int *x, int N, int w, int P);
 
 int main()
 {
@@ -28,28 +29,32 @@ int main()
 	BaseP(y, N, b, 10);
 	
 	
-    for(i=0;i<N;++i) printf("%d",x[i]);
+    for(i=0;i<N;++i) 
+	    printf("%d ",x[i]);
     printf("\n");
-	for(i=0;i<N;++i) printf("%d",y[i]);
-	printf("\n");
-    system("pause");
- 
-    /* 
-	SFT(X,x,N,w,P);
-	for(i=0;i<N;++i) printf("%d",X[i]);
-	printf("\n");
-    system("pause"); 
     
-	SFT(Y,y,N,w,P);
-	for(i=0;i<N;++i) printf("%d",Y[i]);
+ 	SFT(X ,x ,N ,w ,P);
+	for(i=0;i<N;++i) 
+	    printf("%d ",X[i]);
 	printf("\n");
-    system("pause");
-		
-	for(i=0;i<N;i++) X[i] = (X[i]*Y[i]*n % P);
+	system("pause");
+		   
+	for(i=0;i<N;++i) 
+	    printf("%d ",y[i]);
+	printf("\n");
+	  
+	SFT(Y ,y ,N ,w ,P);
+	for(i=0;i<N;++i) printf("%d ",Y[i]);
+	printf("\n");
+	system("pause");
+
+	for(i=0;i<N;++i) 
+	    X[i] = (X[i]*Y[i]*n % P);
 	
-	SFT(x,X,N,W,P);
-	for(i=0;i<N;++i) printf("%d",x[i]);  
-	*/
+	//inverse
+	SFT(x ,X ,N ,W ,P );
+	for(i=0;i<N;++i) printf("%d ",x[i]);  
+	
 	return 0;
 }
 
@@ -71,39 +76,15 @@ int SFT(int *X, int *x, int N, int w, int P)
 	wk = 1;
 	for(i=0;i<N;i++)
 	{
-		x[i] = 0; w0 = 1;
+		X[i] = 0; w0 = 1;
 		for(j=0;j<N;++j)
 		{
-			
+			printf("%d ", w0);
+			X[i] += (w0*x[j] % P);
+			w0 = (w0*wk % P);	 
 		} 
+		printf("\n");
+		wk = wk*w % P;
+		X[i] = (X[i] % P);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
