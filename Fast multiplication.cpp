@@ -112,16 +112,10 @@ int FFT_radix_2(int *X ,int *x ,int w ,int N,int P)
 		even[n] = x[2*n];
 		odd[n] = x[2*n+1];
 	} 
-    //FFT_radix_2(even_r,even_i,even_FT_r,even_FT_i,N/2);
-	//FFT_radix_2(odd_r,odd_i,odd_FT_r,odd_FT_i,N/2);
-	if((n%2) == 0){
-		FFT_radix_2(even_FT ,even ,w * w % P,N/2 ,P);
-		FFT_radix_2(odd_FT ,odd ,w * w % P ,N/2 ,P);
-	}
-	else {
-		FFT_radix_2(even_FT,even,w ,N/2 ,P);
-		FFT_radix_2(odd_FT,odd,w ,N/2 ,P);
-	}
+
+	FFT_radix_2(even_FT ,even ,w * w % P,N/2 ,P);
+	FFT_radix_2(odd_FT ,odd ,w * w % P ,N/2 ,P);
+
 	wk=1;
 	//printf("w=%d\n",w );
 	if(N==8){
@@ -159,7 +153,6 @@ int FFT_radix_2(int *X ,int *x ,int w ,int N,int P)
 				wk = wk * w % P;
 				//printf("wk=%d\n",wk);
 				X[k+N/2] = (even_FT[k] + (wk * odd_FT[k])) % P; 
-				wk = w  % P; 
 		    }    	
 	}
 	//printf("N=%d\n",N);
