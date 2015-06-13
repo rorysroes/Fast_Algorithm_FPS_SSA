@@ -9,17 +9,17 @@ int main()
 {
 	int *y, *x, *X, *Y, *Z, *z, a , b, i;
 	clock_t t1,t2;
-    int N = 32, n = 1365, w = 10, W = 141, P = 1409; // 31^-1 = 66 mod 409 
+    int N = 32, n = 1365, w = 10, W = 141, P = 1409; 
 	printf("Input a , b : ");
 	scanf("%d %d", &a, &b);
 	//printf("%d x %d = %d\n", a, b, a*b); 
-	                     
+	                
 	x = (int * ) malloc(N*sizeof(int));
 	y = (int * ) malloc(N*sizeof(int));
-	z = (int * ) malloc(2*N*sizeof(int));
+	z = (int * ) malloc(N*sizeof(int));
     X = (int * ) malloc(N*sizeof(int));
     Y = (int * ) malloc(N*sizeof(int));
-    Z = (int * ) malloc(2*N*sizeof(int));
+    Z = (int * ) malloc(N*sizeof(int));
 
 	BaseP(x, N, a, 10);
 	BaseP(y, N, b, 10);
