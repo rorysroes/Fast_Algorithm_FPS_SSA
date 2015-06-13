@@ -16,10 +16,10 @@ int main()
 	                     
 	x = (int * ) malloc(N*sizeof(int));
 	y = (int * ) malloc(N*sizeof(int));
-	z = (int * ) malloc(N*sizeof(int));
+	z = (int * ) malloc(2*N*sizeof(int));
     X = (int * ) malloc(N*sizeof(int));
     Y = (int * ) malloc(N*sizeof(int));
-    Z = (int * ) malloc(N*sizeof(int));
+    Z = (int * ) malloc(2*N*sizeof(int));
 
 	BaseP(x, N, a, 10);
 	BaseP(y, N, b, 10);
@@ -28,63 +28,41 @@ int main()
     printf("%d ",x[i]); 
 	printf("\n");	
 
-	if((N%2) == 0)
-	{
-		t1 = clock();
-		FFT_radix_2(X ,x ,w ,N ,P);	
-		t2 = clock();
-		printf("%f secs\n", 1.0*(t2-t1)/CLOCKS_PER_SEC);	
-    	for(i=0;i<N;++i) printf("%d ",X[i]);
-    	printf("\n");
-	    system("pause");
-	}
-	else {
-		printf("Error");
-		return 0;
-	}
+	t1 = clock();
+	FFT_radix_2(X ,x ,w ,N ,P);	
+	t2 = clock();
+	printf("%f secs\n", 1.0*(t2-t1)/CLOCKS_PER_SEC);	
+    for(i=0;i<N;++i) printf("%d ",X[i]);
+    printf("\n");
+	system("pause");
 	
 	for(i=0;i<N;++i) 
 	printf("%d ",y[i]);
-    printf("\n");
+	printf("\n");
 		
-	if((N%2) == 0)
-	{
-		t1 = clock();
-		FFT_radix_2(Y,y,w,N,P);	
-		t2 = clock();
-		printf("%f secs\n", 1.0*(t2-t1)/CLOCKS_PER_SEC);	
-    	for(i=0;i<N;++i) printf("%d ",Y[i]);
-    	printf("\n");
-	    system("pause");
-	}
-	else {
-		printf("Error");
-		return 0;
-	}
-	
-	for(i=0;i<N;++i) Z[i] = (X[i]*Y[i]*n % P);
+	t1 = clock();
+	FFT_radix_2(Y,y,w,N,P);	
+	t2 = clock();
+	printf("%f secs\n", 1.0*(t2-t1)/CLOCKS_PER_SEC);	
+    for(i=0;i<N;++i) printf("%d ",Y[i]);
+    printf("\n");
+	system("pause");
+
+	for(i=0;i<N;++i) Z[i] =(((X[i] * Y[i]) % P) * n ) % P;
 	//for(i=0;i<N;++i) printf("Z[%d]=%d\n",i,Z[i]);
 	
-	if((N%2) == 0)
-	{
-		t1 = clock();
-	    FFT_radix_2(z ,Z , W ,N ,P );
-		t2 = clock();
-		printf("%f secs\n", 1.0*(t2-t1)/CLOCKS_PER_SEC);	
-    	for(i=0;i<N;++i) printf("%d ",z[i]);
-    	printf("\n");
-	    system("pause");
-	}
-	else {
-		printf("Error");
-		return 0;
-	}
+	FFT_radix_2(z ,Z , W ,N ,P );	
+    for(i=0;i<N;++i) printf("%d ",z[i]);
+    printf("\n");
+	system("pause");
  
-	
 	free(x);
 	free(y);
+	free(z);
 	free(X);
 	free(Y);
+	free(Z);
+	
     return 0;
 }
 
@@ -110,11 +88,10 @@ int FFT_radix_2(int *X ,int *x ,int w ,int N,int P)
 		odd[n] = x[2*n+1];
 	} 
 	
-	FFT_radix_2(even_FT ,even ,w * w % P,N/2 ,P);
-	FFT_radix_2(odd_FT ,odd ,w * w % P ,N/2 ,P);
+	FFT_radix_2(even_FT ,even ,( w * w ) % P,N/2 ,P);
+	FFT_radix_2(odd_FT ,odd ,( w * w ) % P ,N/2 ,P);
 
 	wk=1;
-	//printf("w=%d\n",w );
 	
     if(N==32){
 		for(k=0;k<N/2;++k)
@@ -125,12 +102,12 @@ int FFT_radix_2(int *X ,int *x ,int w ,int N,int P)
 				//printf("wk=%d\n",wk);
 				X[k+N/2] = (even_FT[k] + (wk * odd_FT[k])) % P; 
 				
-                if(k==13){
+                if(k==14){
 				    wk = w * (w * (w * (w * (w * (w * (w * w * w % P)* w % P)* w % P) * w % P)* w % P)* w % P)* w % P;					
 				}else if(k==13){
 				    wk = w * (w * (w * (w * (w * (w * w * w * w % P )* w % P) * w % P)* w % P)* w % P)* w % P;				
 				}else if(k==12){
-				    wk = w * (w * (w * (w * (w * (w * w * w % P)* w % P) * w % P)* w % P)* w % P)* w % P;				
+				    wk = w * (w * (w * (w * (w * (w * w * w % P) * w % P) * w % P)* w % P)* w % P)* w % P;				
 				}else if(k==11){
 				    wk = w * (w * (w * (w * (w * w * w * w % P) * w % P)* w % P)* w % P)* w % P;				
 				}else if(k==10){
@@ -218,12 +195,11 @@ int FFT_radix_2(int *X ,int *x ,int w ,int N,int P)
 				wk = wk * w % P;
 				//printf("wk=%d\n",wk);
 				X[k+N/2] = (even_FT[k] + (wk * odd_FT[k])) % P; 
-				wk = w  % P; 
 		    }    	
 	}
 	//printf("N=%d\n",N);
-	for(i=0;i<N/2;++i) printf("X[%d]=%d\n",i,X[i]);
-	for(i=0;i<N/2;++i) printf("X[%d]=%d\n",i+N/2,X[i+N/2]);
+	//for(i=0;i<N/2;++i) printf("X[%d]=%d\n",i,X[i]);
+	//for(i=0;i<N/2;++i) printf("X[%d]=%d\n",i+N/2,X[i+N/2]);
     //printf("\n");
     
     
