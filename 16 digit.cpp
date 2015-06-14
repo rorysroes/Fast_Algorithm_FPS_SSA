@@ -49,7 +49,7 @@ int main()
 	system("pause");
 
 	for(i=0;i<N;++i) Z[i] =(((X[i] * Y[i]) % P) * n ) % P;
-	//for(i=0;i<N;++i) printf("Z[%d]=%d\n",i,Z[i]);
+	for(i=0;i<N;++i) printf("Z[%d]=%d\n",i,Z[i]);
 	
 	FFT_radix_2(z ,Z , W ,N ,P );	
     for(i=0;i<N;++i) printf("%d ",z[i]);
@@ -88,8 +88,8 @@ int FFT_radix_2(int *X ,int *x ,int w ,int N,int P)
 		odd[n] = x[2*n+1];
 	} 
 	
-	FFT_radix_2(even_FT ,even ,( w * w ) % P,N/2 ,P);
-	FFT_radix_2(odd_FT ,odd ,( w * w ) % P ,N/2 ,P);
+	FFT_radix_2(even_FT ,even , w * w  % P,N/2 ,P);
+	FFT_radix_2(odd_FT ,odd , w * w  % P ,N/2 ,P);
 
 	wk=1;
 	
@@ -97,33 +97,33 @@ int FFT_radix_2(int *X ,int *x ,int w ,int N,int P)
 		for(k=0;k<N/2;++k)
 	        {
 				X[k] = (even_FT[k] + (wk * odd_FT[k]))  % P;
-				//printf("wk=%d\n",wk);
-				wk = (wk * (w * (w * (w * w * (w * w * (w * w * w * w % P) * w * w % P) * w * w % P)* w % P)* w % P) ) % P;
-				//printf("wk=%d\n",wk);
+				printf("wk=%d\n",wk);
+				wk =( wk * (w * (w * (w * (w * (w * ( w *( w * ( w * w % P) * w % P) * w % P) * w % P)* w % P)* w % P)* w % P)* w % P) ) % P;
+				printf("wk=%d\n",wk);
 				X[k+N/2] = (even_FT[k] + (wk * odd_FT[k])) % P; 
 				
                 if(k==14){
-				    wk = w * (w * (w * (w * (w * (w * (w * w * w % P)* w % P)* w % P) * w % P)* w % P)* w % P)* w % P;					
+				    wk = (w * (w * (w * (w * (w * (w * (w * w * w % P)* w % P)* w % P) * w % P)* w % P)* w % P) * w) % P;					
 				}else if(k==13){
 				    wk = w * (w * (w * (w * (w * (w * w * w * w % P )* w % P) * w % P)* w % P)* w % P)* w % P;				
 				}else if(k==12){
 				    wk = w * (w * (w * (w * (w * (w * w * w % P) * w % P) * w % P)* w % P)* w % P)* w % P;				
 				}else if(k==11){
-				    wk = w * (w * (w * (w * (w * w * w * w % P) * w % P)* w % P)* w % P)* w % P;				
+				    wk = w * (w * (w * (w * (w * (w * w * w % P)* w % P) * w % P)* w % P)* w % P) % P;				
 				}else if(k==10){
 				    wk = w * (w * (w * (w * (w * w * w % P) * w % P)* w % P)* w % P)* w % P;					
 				}else if(k==9){
-				    wk = w * (w * (w * (w * w * w * w % P)* w % P)* w % P)* w % P;				
+				    wk = w * (w * (w * (w * w * w * w % P)* w % P)* w % P) * w % P;				
 				}else if(k==8){
-				    wk = w * (w * (w * (w * w * w % P)* w % P)* w % P)* w % P;				
+				    wk = w * (w * (w * (w * w * w % P) * w % P) * w % P) * w % P;				
 				}else if(k==7){
 				    wk = w * (w * (w * w * w * w % P)* w % P)* w % P;				
 				}else if(k==6){
-				    wk = w * (w * (w * w * w % P)* w % P)* w % P;				
+				    wk = w * (w * (w * w * w % P ) * w % P) * w % P;				
 				}else if(k==5){
 				    wk = w * (w * w * w * w % P)* w % P;				
 				}else if(k==4){
-			        wk = w * (w * w * w % P)* w % P;
+			        wk = w * (w * w * w % P) * w % P;
 				}else if(k==3){
 				    wk = w * w * w * w % P;
 			    }else if(k==2) {
@@ -197,10 +197,10 @@ int FFT_radix_2(int *X ,int *x ,int w ,int N,int P)
 				X[k+N/2] = (even_FT[k] + (wk * odd_FT[k])) % P; 
 		    }    	
 	}
-	//printf("N=%d\n",N);
-	//for(i=0;i<N/2;++i) printf("X[%d]=%d\n",i,X[i]);
-	//for(i=0;i<N/2;++i) printf("X[%d]=%d\n",i+N/2,X[i+N/2]);
-    //printf("\n");
+	printf("N=%d\n",N);
+	for(i=0;i<N/2;++i) printf("X[%d]=%d\n",i,X[i]);
+	for(i=0;i<N/2;++i) printf("X[%d]=%d\n",i+N/2,X[i+N/2]);
+    printf("\n");
     
     
 	free(even);
