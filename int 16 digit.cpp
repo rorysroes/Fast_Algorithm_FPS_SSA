@@ -49,7 +49,7 @@ int main()
 	system("pause");
 
 	for(i=0;i<N;++i) Z[i] =(((X[i] * Y[i]) % P) * n ) % P;
-	//for(i=0;i<N;++i) printf("Z[%d]=%d\n",i,Z[i]);
+	for(i=0;i<N;++i) printf("Z[%d]=%d\n",i,Z[i]);
 	
 	FFT_radix_2(z ,Z , W ,N ,P );	
     for(i=0;i<N;++i) printf("%d ",z[i]);

@@ -122,9 +122,9 @@ int FFT_radix_2(int *X ,int *x ,int w ,int N,int P)
 			for(k=0;k<N/2;++k)
 			{
 				X[k] = (even_FT[k] + (wk * odd_FT[k]))  % P;
-				//printf("wk=%d\n",wk);
+				printf("wk=%d\n",wk);
 				wk = (wk * (w * w * w * w % P) )% P;
-				//printf("wk=%d\n",wk);
+				printf("wk=%d\n",wk);
 				X[k+N/2] = (even_FT[k] + (wk * odd_FT[k])) % P; 
 				
 				if(k==2){
