@@ -7,8 +7,12 @@
 //引入時間處理函式(clock, CLOCKS_PER_SEC)
 #include <time.h>
 //定義在之後程式中 MAXCHAR 就是 100
-#define MAXCHAR 255
+#define MAXCHAR 400
 int ReverseOrder(char *a, int N); 
+int Char2Int(char *a, int N) ;
+int  Multiply(char *c, char *a, int Na, char *b, int Nb);
+
+
 int main()
 {
 	int i ,j ,Na ,Nb ,Nc ,P ,w ,W ,N ,Ninv ,*x ,*X ,*y ,*Y ;
@@ -42,17 +46,22 @@ int main()
 	// 輸入字串,%s是自串的意義
 	scanf("%s %s", a, b);
 	// 印出字串,%s是字串的意義
-	printf("%s * %s = \n",a,b);
+	printf("%s * %s = \n", a, b);
 	//for(i=0;i<MAXCHAR-1;++i) a[i] = b[i] = '9';
 	//算出字串a,b的長度(strlen) 
 	Na = strlen(a); 
 	Nb = strlen(b);	
+
 	//將a,b的位元順序互換. EX : a = 1234 -> 4321
 	ReverseOrder(a,Na);
  	ReverseOrder(b,Nb);
 	//將a,b從字元轉成0-9的數字 ,可google : ascii code, 48 = '0', ..... 
 	Char2Int(a,Na);
-	Char2Int(b,Nb);			
+	Char2Int(b,Nb);	
+	for(i=0;i<Na;++i) printf("%d",a[i]);
+	printf("\n");	
+	for(i=0;i<Nb;++i) printf("%d",b[i]);
+	printf("\n");			
 	// 做 a , b的乘法(標準國小做法)
 	t1 = clock();
 	Nc = Multiply(c, a, Na, b, Nb);
@@ -62,11 +71,12 @@ int main()
 	ReverseOrder(c, Nc);
 	for(i=0;i<Nc;++i) printf("%d",c[i]);
 	printf("\n");
+	return 0;
 	// 把c的數字變回字元
 	// Int2Char(c,Nc);
 	// 印出c來 
 	// printf("%s\n", c); 
-	P = Find 
+	//P = Find 
 	
 	
 	
@@ -101,7 +111,31 @@ int Char2Int(char *a, int N)
 	} 
 	return 0; 
 } 
+int  Multiply(char *c, char *a, int Na, char *b, int Nb)
+{
+	int i, j;
+	
+	// 先把 c 歸 0 
+	for(i=0;i<Na+Nb;++i) c[i] = 0;
+	
+	for(i=0;i<Na;i++)
+	{
+		for(j=0;j<Nb;j++)
+		{
+			// a的10^3的位置跟b的10^4放在c的10^7位置 
+			c[i+j] += a[i]*b[j];
+			if(c[i+j] >= 10)
+			{
+				c[i+j+1] += (c[i+j] / 10); // 無條件捨去 
+				c[i+j] = c[i+j] % 10;
+			}
+		}
+	}
+	// c 最多有多長 
+	if (c[Na+Nb-1]==0) return Na+Nb-1;  // highest bit = 0 -> 位數少 1 
+	else return Na+Nb;
 
+}
 
 
 
