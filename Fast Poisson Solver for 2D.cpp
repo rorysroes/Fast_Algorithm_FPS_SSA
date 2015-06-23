@@ -11,6 +11,8 @@ int Exact_Solution(double **U, int N);
 int Exact_Source(double **F, int N);
 int GaussElimination(double **M, double *x, double *b, int N);
 int Print_Complex_Vector(double *x, double *y, int N);
+int DST(double *x,double *y, int N);
+int iDST(double *x,double *y, int N);
 int DST2D(double **X, int N);
 int iDST2D(double **X, int N);
 int Transpose(double **A, int N);
