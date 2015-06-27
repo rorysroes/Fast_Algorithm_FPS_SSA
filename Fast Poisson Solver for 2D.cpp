@@ -373,7 +373,7 @@ int iDST(double *x,double *y, int N)
 
 	for(i=0;i<N/2-1;i++)
 	{
-		y[i] =(-2/N)*y_i[i+1];
+		y[i] =(-2.0/N)*y_i[i+1];
 	}
     //for(i=0;i<N/2-1;i++) printf("y[%d] = %f\n",i,y[i]);
     
